@@ -71,7 +71,7 @@ import de.kp.ames.map.client.openlayers.util.JObjectArray;
 import de.kp.ames.map.client.openlayers.util.JSObject;
 import de.kp.ames.map.client.style.MapStyle;
 import de.kp.ames.map.client.util.MapLoader;
-import de.kp.ames.web.shared.JaxrConstants;
+import de.kp.ames.web.shared.constants.JaxrConstants;
 
 public class BaseMapImpl extends VLayout {
 

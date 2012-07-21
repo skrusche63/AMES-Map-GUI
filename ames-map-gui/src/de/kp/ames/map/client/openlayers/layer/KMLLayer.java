@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright 2010 Dr. Krusche & Partner PartG
+ * Copyright 2012 Dr. Krusche & Partner PartG
  *
  * All rights reserved.
  *   
@@ -12,13 +12,24 @@ import de.kp.ames.map.client.openlayers.StyleMap;
 import de.kp.ames.map.client.openlayers.feature.VectorFeature;
 import de.kp.ames.map.client.openlayers.util.JSObject;
 
-
 public class KMLLayer extends Layer {
 
+	/**
+	 * Constructor
+	 * 
+	 * @param element
+	 */
 	protected KMLLayer(JSObject element) {
 		super(element);
 	}
 
+	/**
+	 * Constructor
+	 * 
+	 * @param name
+	 * @param url
+	 * @param projection
+	 */
 	public KMLLayer(String name, String url, String projection) {
 		this(KMLLayerImpl.create(name, url, projection));
 	}
@@ -49,14 +60,23 @@ public class KMLLayer extends Layer {
 
 	};
 
+	/**
+	 * @param style
+	 */
 	public void setStyle(Style style){
 		getJSObject().setProperty("style", style.getJSObject());
 	}
 
+	/**
+	 * @param styleMap
+	 */
 	public void setStyleMap(StyleMap styleMap){
 		getJSObject().setProperty("styleMap", styleMap.getJSObject());
 	}
 	
+	/**
+	 * Refresh layer
+	 */
 	public void refresh() {
 		KMLLayerImpl.refresh(this.getJSObject());
 	}

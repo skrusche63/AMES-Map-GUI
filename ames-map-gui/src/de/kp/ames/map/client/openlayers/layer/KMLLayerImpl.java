@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright 2010 Dr. Krusche & Partner PartG
+ * Copyright 2012 Dr. Krusche & Partner PartG
  *
  * All rights reserved.
  *   
@@ -9,7 +9,9 @@ package de.kp.ames.map.client.openlayers.layer;
 
 import de.kp.ames.map.client.openlayers.util.JSObject;
 
-// this is a pre-configured kml layer
+/* 
+ * This is a pre-configured kml layer
+ */
 public class KMLLayerImpl {
 
 	public static native JSObject create(String name, String url, String projection)/*-{		

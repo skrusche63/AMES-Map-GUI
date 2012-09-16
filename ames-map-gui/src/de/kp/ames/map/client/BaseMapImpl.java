@@ -27,6 +27,7 @@ import com.google.gwt.json.client.JSONObject;
 import com.google.gwt.json.client.JSONString;
 
 import com.smartgwt.client.types.Overflow;
+import com.smartgwt.client.util.SC;
 import com.smartgwt.client.widgets.WidgetCanvas;
 import com.smartgwt.client.widgets.events.ClickEvent;
 import com.smartgwt.client.widgets.events.ClickHandler;
@@ -245,7 +246,28 @@ public class BaseMapImpl extends VLayout {
 			
 		this.addDrawHandler(new DrawHandler() {
 			public void onDraw(DrawEvent event) {				
+
+				SC.logWarn("====> BaseMap.onDraw");
+				
 				self.rendered = true;
+
+				/*
+				 *  onDraw is only called one time on startup
+				 *  all other resizes will be caught by onResized
+				 *  
+				 *  Different size updates will be triggered 
+				 */
+				
+				// triggers resize of openlayers to 100%
+				self.resizeMap();
+				
+				// triggers resize of loaded map layer to 100% based on its boundingbox
+				map.zoomToExtent(bounds);
+				
+				// triggers resize of canvas to 100% 
+				// this is necessary when Map is embedded within a tab or other complex layout
+				canvas.setWidth100();
+				canvas.setHeight100();
 			}			
 		});
 		
@@ -340,6 +362,8 @@ public class BaseMapImpl extends VLayout {
 
 	// this method 
 	private void createMap() {
+		
+		SC.logWarn("====> BaseMapInpl.createMap()");
 		
 		/* 
 		 * Create wms base layer
@@ -562,19 +586,28 @@ public class BaseMapImpl extends VLayout {
 		 * Set WMS parameters
 		 */
 		
+		SC.logWarn("====> BaseMapInpl.createWMSBaselayer() 1");
+
 		WMSParams wmsParams = new WMSParams();
 		wmsParams.setFormat("image/png");
 		wmsParams.setStyles("");
 
 		bounds = mapConfig.getBounds();
+
+		SC.logWarn("====> BaseMapInpl.createWMSBaselayer() 2");
+		
 		wmsParams.setMaxExtent(bounds);
 		//wmsParams.setIsTransparent(true);
 		
 		wmsParams.setLayers(mapConfig.getWmsLayers());
 		wmsParams.setBGColor(BG_COLOR);
-		
+
+		SC.logWarn("====> BaseMapInpl.createWMSBaselayer() 3");
+
 		String name   = mapConfig.getWmsName();
 		String server = mapConfig.getWmsServer();
+
+		SC.logWarn("====> BaseMapInpl.createWMSBaselayer() 4");
 
 		wmsLayer = new WMS(name, server, wmsParams);
 		wmsLayer.addLayerLoadEndListener(new LayerLoadEndListener() {
@@ -595,6 +628,8 @@ public class BaseMapImpl extends VLayout {
 	 */
 	private void resizeMap() {
 
+		SC.logWarn("=====>resizeMap() rendered: " + this.rendered);
+		
 		if (this.rendered == false) return;
 		
 		if ((mapWidget == null) || (map == null)) return;
